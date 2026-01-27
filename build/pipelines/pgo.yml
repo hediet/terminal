@@ -83,6 +83,6 @@ stages:
         parameters:
           pool:
             vmImage: 'windows-latest'
-          dependsOn: MergePGD
+          #dependsOn: MergePGD
           buildConfiguration: Release
           artifactStem: -instrumentation
