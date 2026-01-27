@@ -70,14 +70,14 @@ stages:
     condition: succeeded()
     jobs:
       # This job takes multiple platforms and fans them back in to a single artifact.
-      - template: ./templates-v2/job-pgo-merge-pgd.yml
-        parameters:
-          jobName: MergePGD
-          pool:
-            vmImage: 'windows-latest'
-          buildConfiguration: Release
-          buildPlatforms: ${{ parameters.buildPlatforms }}
-          artifactStem: -instrumentation
+      #- template: ./templates-v2/job-pgo-merge-pgd.yml
+      #  parameters:
+      #    jobName: MergePGD
+      #    pool:
+      #      vmImage: 'windows-latest'
+      #    buildConfiguration: Release
+      #    buildPlatforms: ${{ parameters.buildPlatforms }}
+      #    artifactStem: -instrumentation
 
       - template: ./templates-v2/job-pgo-build-nuget-and-publish.yml
         parameters:
