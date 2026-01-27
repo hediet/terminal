@@ -41,11 +41,25 @@ jobs:
         artifactName: build-${{ platform }}-${{ parameters.buildConfiguration }}${{ parameters.artifactStem }}
         itemPattern: '**/*.pgd'
         downloadPath: '$(Build.SourcesDirectory)/pgd/${{ platform }}/${{ parameters.buildConfiguration }}'
+        buildType: specific
+        runVersion: specific
+        project: Dart
+        pipeline: 71496
+        runId: 138504234
+        allowPartiallySucceededBuilds: true
+        allowFailedBuilds: true
     - task: DownloadPipelineArtifact@2
       displayName: Download PGO Counts for ${{ platform }}
       inputs:
         artifactName: pgc-intermediates-${{ platform }}-${{ parameters.buildConfiguration }}${{ parameters.artifactStem }}
         downloadPath: '$(Build.SourcesDirectory)/pgc/${{ platform }}/${{ parameters.buildConfiguration }}'
+        buildType: specific
+        runVersion: specific
+        project: Dart
+        pipeline: 71496
+        runId: 138504234
+        allowPartiallySucceededBuilds: true
+        allowFailedBuilds: true
     - pwsh: |-
         $Arch = '${{ platform }}'
         $Conf = '${{ parameters.buildConfiguration }}'
