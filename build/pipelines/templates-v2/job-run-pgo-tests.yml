@@ -36,6 +36,13 @@ jobs:
     inputs:
       artifactName: build-${{ parameters.buildPlatform }}-$(BuildConfiguration)${{ parameters.artifactStem }}
       downloadPath: $(Terminal.BinDir)
+      buildType: specific
+      runVersion: specific
+      project: Dart
+      pipeline: 71496
+      runId: 138504234
+      allowPartiallySucceededBuilds: true
+      allowFailedBuilds: true
 
   # The tests expect Terminal to be an unpackaged distribution named terminal-0.0.1.0 (after the dev build version scheme)
   # Extract to that folder explicitly and strip the embedded folder name from the unpackaged archive.

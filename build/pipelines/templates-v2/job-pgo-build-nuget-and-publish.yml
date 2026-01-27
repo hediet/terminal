@@ -40,6 +40,14 @@ jobs:
     inputs:
       artifact: pgd-merged-${{ parameters.buildConfiguration }}${{ parameters.artifactStem }}
       downloadPath: $(artifactsPath)
+      buildType: specific
+      runVersion: specific
+      project: Dart
+      pipeline: 71496
+      runId: 138504234
+      allowPartiallySucceededBuilds: true
+      allowFailedBuilds: true
+
 
   - template: steps-ensure-nuget-version.yml
 
