@@ -22,23 +22,20 @@ jobs:
     - name: Restore NuGet packages
       run: nuget restore OpenConsole.slnx
       
-    - name: Setup VS Developer Environment for ARM64 cross-compile
-      uses: ilammy/msvc-dev-cmd@v1
-      with:
-        arch: amd64_arm64
-        
     - name: Build ConPTY for ARM64
-      shell: cmd
+      shell: pwsh
       run: |
-        msbuild src\winconpty\lib\winconptylibrary.vcxproj /p:Configuration=Release /p:Platform=ARM64 /t:Build
-        msbuild src\winconpty\dll\winconptydll.vcxproj /p:Configuration=Release /p:Platform=ARM64 /t:Build
-      
+        $solutionDir = (Get-Location).Path + "\"
+        # Build the winconpty lib first, then the dll
+        msbuild src\winconpty\lib\winconptylib.vcxproj /p:Configuration=Release /p:Platform=ARM64 /p:SolutionDir=$solutionDir
+        msbuild src\winconpty\dll\winconptydll.vcxproj /p:Configuration=Release /p:Platform=ARM64 /p:SolutionDir=$solutionDir
+        
     - name: Find and collect artifacts
       shell: pwsh
       run: |
         New-Item -ItemType Directory -Force -Path artifacts
         Write-Host "=== Searching for conpty files ==="
-        Get-ChildItem -Recurse -Include "conpty.dll","conpty.lib" -ErrorAction SilentlyContinue | ForEach-Object {
+        Get-ChildItem -Recurse -Include "conpty.dll","conpty.lib","OpenConsole.exe" -ErrorAction SilentlyContinue | Where-Object { $_.FullName -match "ARM64" -and $_.FullName -match "Release" } | ForEach-Object {
           Write-Host "Found: $($_.FullName)"
           Copy-Item $_.FullName -Destination artifacts/ -Force
         }
