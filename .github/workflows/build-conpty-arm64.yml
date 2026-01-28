@@ -13,6 +13,19 @@ jobs:
       with:
         submodules: recursive
         
+    - name: Install Windows 11 SDK and ARM64 tools
+      shell: pwsh
+      run: |
+        # Use VS Installer to add Required components for ARM64 build
+        $vsWhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+        $installPath = & $vsWhere -latest -property installationPath
+        $vsInstaller = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vs_installer.exe"
+        
+        # Install Windows 11 SDK and ARM64 C++ tools
+        & $vsInstaller modify --installPath $installPath --add Microsoft.VisualStudio.Component.Windows11SDK.22621 --add Microsoft.VisualStudio.Component.VC.Tools.ARM64 --quiet --norestart --wait
+        
+        Write-Host "SDK and ARM64 tools installation completed"
+        
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v2
       
